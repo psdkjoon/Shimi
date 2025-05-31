@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آزمون حفظ کردن - تعاملی</title>
+    <title>آزمون چهار گزینه‌ای</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,7 +15,7 @@
             text-align: right;
         }
         .container {
-            max-width: 700px;
+            max-width: 800px;
             margin: 30px auto;
             background: #fff;
             padding: 30px;
@@ -27,47 +27,78 @@
             color: #0056b3;
             margin-bottom: 25px;
         }
-        .qa-box {
+        .question-box {
             background-color: #e9f7ff;
             border: 1px solid #cce7ff;
             border-radius: 6px;
             padding: 25px;
             margin-bottom: 20px;
-            min-height: 150px;
+            min-height: 180px; /* Adjusted for better spacing */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-        .question-text {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 20px;
             text-align: center;
         }
-        input[type="text"] {
-            width: 80%;
-            padding: 10px 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1.1em;
-            text-align: center; /* Center align input text */
+        .question-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 25px;
+            text-align: center;
         }
-        .buttons {
-            margin-top: 15px;
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px; /* Space between buttons */
+            margin-bottom: 20px;
+        }
+        .option-button {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 12px 25px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            width: 45%; /* Two columns layout */
+            box-sizing: border-box; /* Include padding and border in width */
+            text-align: right; /* Text align right for RTL */
+        }
+        .option-button:hover {
+            background-color: #e0e0e0;
+        }
+        .option-button.selected {
+            border-color: #007bff;
+            background-color: #d1ecf1;
+        }
+        .option-button.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            font-weight: bold;
+        }
+        .option-button.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            font-weight: bold;
+        }
+        .buttons-action {
+            margin-top: 20px;
         }
         button {
             background-color: #28a745;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 5px;
-            font-size: 1em;
+            font-size: 1.1em;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            margin: 0 5px;
+            margin: 0 10px;
         }
         button:hover {
             background-color: #218838;
@@ -92,15 +123,6 @@
         }
         .feedback.incorrect {
             color: #dc3545;
-        }
-        .correct-answer-display {
-            margin-top: 10px;
-            font-size: 1em;
-            color: #0056b3;
-            background-color: #f0f8ff;
-            padding: 8px;
-            border-radius: 4px;
-            display: none;
         }
         .progress-bar-container {
             width: 100%;
@@ -135,23 +157,25 @@
             margin-top: 10px;
             display: inline-block;
             overflow-x: auto;
-            max-width: 100%; /* Ensure it fits in the box */
+            max-width: 100%;
+            direction: ltr; /* Ensure equations display LTR */
+            text-align: left; /* Ensure equations display LTR */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>آزمون حفظ کردن - شیمی و فیزیک</h1>
-        <p>جواب را تایپ کرده و دکمه "بررسی جواب" را بزنید. وقتی سوالات تمام شد، دکمه "شروع مجدد" ظاهر می‌شود.</p>
+        <h1>آزمون چهار گزینه‌ای شیمی و فیزیک</h1>
+        <p>یکی از گزینه‌ها را انتخاب کرده و "بررسی جواب" را بزنید.</p>
 
-        <div class="qa-box">
+        <div class="question-box">
             <div id="questionDisplay" class="question-text">برای شروع، دکمه "سوال بعدی" را بزنید.</div>
-            <input type="text" id="answerInput" placeholder="جواب خود را اینجا تایپ کنید">
+            <div id="optionsContainer" class="options-container">
+                </div>
             <div id="feedbackDisplay" class="feedback"></div>
-            <div id="correctAnswerDisplay" class="correct-answer-display"></div>
         </div>
 
-        <div class="buttons">
+        <div class="buttons-action">
             <button id="checkAnswer">بررسی جواب</button>
             <button id="nextQuestion">سوال بعدی</button>
         </div>
@@ -162,122 +186,279 @@
     </div>
 
     <script>
-        const qaPairs = [
-            { question: "نام Al<sub>2</sub>O<sub>3</sub> چیست؟", answer: "بوکسیت" },
-            { question: "نام Fe<sub>2</sub>O<sub>3</sub> چیست؟", answer: "هماتیت" },
-            { question: "تولیدات ذغال سنگ در هنگام احتراق چیست؟", answer: "CO, CO2, H2O, SO2" },
-            { question: "اکسید فلز چه خاصیتی دارد؟", answer: "بازی است" },
-            { question: "اکسید نافلز چه خاصیتی دارد؟", answer: "اسیدی است" },
-            { question: "سرکه چند درصد استیک اسید دارد؟", answer: "پنج درصد" },
-            { question: "کدام عنصر در شربت معده وجود دارد؟", answer: "منیزیم" },
-            { question: "لیتیوم سولفات در آب چه خاصیتی دارد؟", answer: "گرماده است" },
-            { question: "کدام ترکیبات در آب کم محلول هستند؟", answer: "نقره کلرید، باریم سولفات، کلسیم سولفات و منیزیم هیدروکسید" },
-            { question: "فراوان‌ترین یون در آب چیست؟", answer: "Cl-" },
-            { question: "معادله واکنش NaCl با AgNO<sub>3</sub> چیست؟ (با H<sub>2</sub>O به عنوان کاتالیزور)", answer: 'NaCl<sub>(s)</sub> + AgNO<sub>3(s)</sub> &rarr; AgCl<sub>(s)</sub> + NaNO<sub>3(aq)</sub>' },
-            { question: "معادله واکنش 2Na<sub>3</sub>PO<sub>4</sub> با 3CaCl<sub>2</sub> چیست؟ (با H<sub>2</sub>O به عنوان کاتالیزور)", answer: '2Na<sub>3</sub>PO<sub>4(s)</sub> + 3CaCl<sub>2(s)</sub> &rarr; Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2(s)</sub> + 6NaCl<sub>(aq)</sub>' },
-            { question: "ترتیب امواج از قوی به ضعیف چیست؟", answer: "گاما، ایکس، فرابنفش، مرئی، فروسرخ، ریزموج‌ها، رادیویی" },
-            { question: "وزن پروتون چقدر است؟", answer: "۱.۰۰۷۳" },
-            { question: "وزن نوترون چقدر است؟", answer: "۱.۰۰۸۷" },
-            { question: "حرکت الکترون از لایه ۶ به لایه ۲ چه رنگی می‌سازد؟", answer: "بنفش" },
-            { question: "حرکت الکترون از لایه ۵ به لایه ۲ چه رنگی می‌سازد؟", answer: "آبی" },
-            { question: "حرکت الکترون از لایه ۴ به لایه ۲ چه رنگی می‌سازد؟", answer: "سبز" },
-            { question: "حرکت الکترون از لایه ۳ به لایه ۲ چه رنگی می‌سازد؟", answer: "قرمز" },
-            { question: "کدام ایزوتوپ اورانیوم در راکتورها استفاده می‌شود؟", answer: "اورانیوم ۲۳۵" },
-            { question: "درصد فراوانی اورانیوم ۲۳۵ در جرم طبیعی چقدر است؟", answer: "کمتر از ۰.۷ درصد" },
-            { question: "چند عنصر ساختگی و چند عنصر طبیعی داریم؟", answer: "۲۶ عنصر ساختگی و ۹۲ طبیعی" },
-            { question: "نام حلال رنگ چیست؟", answer: "هگزان" },
-            { question: "هیدروژن با اتصال به چه عناصری پیوند هیدروژنی می‌سازد؟", answer: "F, N, O" },
-            { question: "یون هیدروکسید (HO) چند بار منفی دارد؟", answer: "یک بار منفی" },
-            { question: "یون آمونیوم (NH<sub>4</sub>) چند بار مثبت دارد؟", answer: "یک بار مثبت" },
-            { question: "یون منگنات (MnO<sub>4</sub>) چند بار منفی دارد؟", answer: "دو بار منفی" },
-            { question: "یون پرمنگنات (MnO<sub>4</sub>) چند بار منفی دارد؟", answer: "یک بار منفی" },
-            { question: "یون کربنات (CO<sub>3</sub>) چند بار منفی دارد؟", answer: "دو بار منفی" },
-            { question: "یون سولفات (SO<sub>4</sub>) چند بار منفی دارد؟", answer: "دو بار منفی" },
-            { question: "یون نیترات (NO<sub>3</sub>) چند بار منفی دارد؟", answer: "یک بار منفی" },
-            { question: "مراحل تهیه منیزیم از آب را شرح دهید.", answer: "برای تهیه منیزیم از آب، ابتدا به آن هیدروکسید (HO<sup>-</sup>) اضافه می‌کنیم تا به صورت Mg(OH)<sub>2</sub> دربیاید که نامحلول است. سپس به آن هیدروکلریک اسید می‌زنیم تا نمکی محلول در آب به دست آید. در نهایت، با عبور جریان برق (الکترولیز)، آن را از کلر جدا می‌کنیم." }
+        const quizData = [
+            {
+                question: "Al<sub>2</sub>O<sub>3</sub> به چه نامی شناخته می‌شود؟",
+                options: ["هماتیت", "منیزیت", "بوکسیت", "سولفات آلومینیوم"],
+                answer: "بوکسیت"
+            },
+            {
+                question: "نام رایج Fe<sub>2</sub>O<sub>3</sub> چیست؟",
+                options: ["پیریت", "هماتیت", "مگنتیت", "سیدریت"],
+                answer: "هماتیت"
+            },
+            {
+                question: "کدام یک جزو تولیدات اصلی احتراق کامل ذغال سنگ نیست؟",
+                options: ["CO<sub>2</sub>", "H<sub>2</sub>O", "SO<sub>2</sub>", "O<sub>2</sub>"],
+                answer: "O<sub>2</sub>"
+            },
+            {
+                question: "اکسید فلزات عمدتاً چه خاصیتی دارند؟",
+                options: ["اسیدی", "خنثی", "بازی", "آمفوتریک"],
+                answer: "بازی"
+            },
+            {
+                question: "اکسید نافلزات عمدتاً چه خاصیتی دارند؟",
+                options: ["بازی", "خنثی", "اسیدی", "آمفوتریک"],
+                answer: "اسیدی"
+            },
+            {
+                question: "سرکه معمولاً حاوی چند درصد استیک اسید است؟",
+                options: ["۱۰ درصد", "۵ درصد", "۵۰ درصد", "۲ درصد"],
+                answer: "۵ درصد"
+            },
+            {
+                question: "کدام عنصر در شربت‌های ضد اسید معده (آنتی‌اسید) کاربرد دارد؟",
+                options: ["پتاسیم", "سدیم", "کلسیم", "منیزیم"],
+                answer: "منیزیم"
+            },
+            {
+                question: "لیتیوم سولفات در آب چه رفتاری از خود نشان می‌دهد؟",
+                options: ["گرماگیر است", "گرماده است", "هیچ تغییری در دما ایجاد نمی‌کند", "محلول نمی‌شود"],
+                answer: "گرماده است"
+            },
+            {
+                question: "کدام یک از ترکیبات زیر در آب بسیار محلول است؟",
+                options: ["نقره کلرید", "باریم سولفات", "سدیم کلرید", "کلسیم سولفات"],
+                answer: "سدیم کلرید"
+            },
+            {
+                question: "فراوان‌ترین یون منفی در آب اقیانوس‌ها (و اغلب آب‌های طبیعی) کدام است؟",
+                options: ["سولفات", "کربنات", "کلرید", "نیترات"],
+                answer: "کلرید"
+            },
+            {
+                question: "نتیجه واکنش NaCl<sub>(s)</sub> + AgNO<sub>3(s)</sub> (با H<sub>2</sub>O به عنوان کاتالیزور) چیست؟",
+                options: ["AgNO<sub>3(aq)</sub> + NaCl<sub>(s)</sub>", "AgCl<sub>(s)</sub> + NaNO<sub>3(aq)</sub>", "NaAg<sub>(s)</sub> + ClNO<sub>3(aq)</sub>", "هیچ واکنشی رخ نمی‌دهد"],
+                answer: "AgCl<sub>(s)</sub> + NaNO<sub>3(aq)</sub>"
+            },
+            {
+                question: "محصولات اصلی واکنش 2Na<sub>3</sub>PO<sub>4(s)</sub> + 3CaCl<sub>2(s)</sub> (با H<sub>2</sub>O به عنوان کاتالیزور) کدامند؟",
+                options: ["Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2(aq)</sub> + 6NaCl<sub>(s)</sub>", "Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2(s)</sub> + 6NaCl<sub>(aq)</sub>", "Na<sub>2</sub>PO<sub>4(s)</sub> + CaCl<sub>2(aq)</sub>", "Ca(OH)<sub>2(s)</sub> + NaCl<sub>(aq)</sub>"],
+                answer: "Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2(s)</sub> + 6NaCl<sub>(aq)</sub>"
+            },
+            {
+                question: "ترتیب صحیح امواج الکترومغناطیسی از قوی‌ترین به ضعیف‌ترین (انرژی بیشتر به کمتر) کدام است؟",
+                options: ["گاما، ایکس، فرابنفش، مرئی، فروسرخ، ریزموج‌ها، رادیویی", "رادیویی، ریزموج‌ها، فروسرخ، مرئی، فرابنفش، ایکس، گاما", "گاما، فرابنفش، ایکس، مرئی، فروسرخ، ریزموج‌ها، رادیویی", "ایکس، گاما، فرابنفش، مرئی، فروسرخ، ریزموج‌ها، رادیویی"],
+                answer: "گاما، ایکس، فرابنفش، مرئی، فروسرخ، ریزموج‌ها، رادیویی"
+            },
+            {
+                question: "تقریباً وزن اتمی پروتون چقدر است؟",
+                options: ["۱.۰۰۸۷", "۰.۰۰۰۵", "۱.۰۰۷۳", "۱.۰۰۹۶"],
+                answer: "۱.۰۰۷۳"
+            },
+            {
+                question: "تقریباً وزن اتمی نوترون چقدر است؟",
+                options: ["۱.۰۰۷۳", "۱.۰۰۸۷", "۰.۰۰۰۵", "۱.۰۱۰۸"],
+                answer: "۱.۰۰۸۷"
+            },
+            {
+                question: "حرکت الکترون از لایه انرژی ۶ به لایه ۲، چه رنگی از نور را تولید می‌کند؟",
+                options: ["قرمز", "سبز", "آبی", "بنفش"],
+                answer: "بنفش"
+            },
+            {
+                question: "حرکت الکترون از لایه انرژی ۵ به لایه ۲، چه رنگی از نور را تولید می‌کند؟",
+                options: ["بنفش", "سبز", "آبی", "قرمز"],
+                answer: "آبی"
+            },
+            {
+                question: "حرکت الکترون از لایه انرژی ۴ به لایه ۲، چه رنگی از نور را تولید می‌کند؟",
+                options: ["قرمز", "سبز", "آبی", "بنفش"],
+                answer: "سبز"
+            },
+            {
+                question: "حرکت الکترون از لایه انرژی ۳ به لایه ۲، چه رنگی از نور را تولید می‌کند؟",
+                options: ["سبز", "آبی", "قرمز", "بنفش"],
+                answer: "قرمز"
+            },
+            {
+                question: "کدام ایزوتوپ اورانیوم در راکتورهای هسته‌ای به عنوان سوخت اصلی استفاده می‌شود؟",
+                options: ["اورانیوم ۲۳۸", "اورانیوم ۲۳۴", "اورانیوم ۲۳۵", "اورانیوم ۲۳۹"],
+                answer: "اورانیوم ۲۳۵"
+            },
+            {
+                question: "میزان فراوانی اورانیوم ۲۳۵ در اورانیوم طبیعی چقدر است؟",
+                options: ["بیشتر از ۹۰ درصد", "حدود ۷ درصد", "کمتر از ۰.۷ درصد", "بین ۱ تا ۲ درصد"],
+                answer: "کمتر از ۰.۷ درصد"
+            },
+            {
+                question: "چند عنصر طبیعی و چند عنصر ساختگی (مصنوعی) شناخته شده است؟",
+                options: ["۹۲ طبیعی و ۲۶ ساختگی", "۲۶ طبیعی و ۹۲ ساختگی", "۱۱۸ طبیعی و صفر ساختگی", "۸۰ طبیعی و ۳۸ ساختگی"],
+                answer: "۹۲ طبیعی و ۲۶ ساختگی"
+            },
+            {
+                question: "نام رایج حلال مورد استفاده در برخی رنگ‌ها چیست؟",
+                options: ["متانول", "استون", "هگزان", "آب"],
+                answer: "هگزان"
+            },
+            {
+                question: "هیدروژن با اتصال به کدام یک از عناصر زیر، **پیوند هیدروژنی** قوی ایجاد می‌کند؟",
+                options: ["C, H, S", "F, N, O", "P, S, Cl", "Na, Mg, Al"],
+                answer: "F, N, O"
+            },
+            {
+                question: "یون هیدروکسید (HO) چه باری دارد؟",
+                options: ["یک بار مثبت", "خنثی", "دو بار منفی", "یک بار منفی"],
+                answer: "یک بار منفی"
+            },
+            {
+                question: "یون آمونیوم (NH<sub>4</sub>) چه باری دارد؟",
+                options: ["یک بار مثبت", "یک بار منفی", "دو بار مثبت", "خنثی"],
+                answer: "یک بار مثبت"
+            },
+            {
+                question: "یون منگنات (MnO<sub>4</sub>) چه باری دارد؟",
+                options: ["یک بار منفی", "دو بار مثبت", "دو بار منفی", "سه بار منفی"],
+                answer: "دو بار منفی"
+            },
+            {
+                question: "یون پرمنگنات (MnO<sub>4</sub>) چه باری دارد؟",
+                options: ["دو بار منفی", "یک بار مثبت", "یک بار منفی", "سه بار منفی"],
+                answer: "یک بار منفی"
+            },
+            {
+                question: "یون کربنات (CO<sub>3</sub>) چه باری دارد؟",
+                options: ["یک بار منفی", "دو بار منفی", "یک بار مثبت", "خنثی"],
+                answer: "دو بار منفی"
+            },
+            {
+                question: "یون سولفات (SO<sub>4</sub>) چه باری دارد؟",
+                options: ["یک بار منفی", "دو بار منفی", "یک بار مثبت", "دو بار مثبت"],
+                answer: "دو بار منفی"
+            },
+            {
+                question: "یون نیترات (NO<sub>3</sub>) چه باری دارد؟",
+                options: ["دو بار منفی", "یک بار مثبت", "یک بار منفی", "خنثی"],
+                answer: "یک بار منفی"
+            },
+            {
+                question: "کدام مرحله در تهیه منیزیم از آب، منجر به تشکیل یک نمک محلول در آب می‌شود؟",
+                options: [
+                    "افزودن هیدروکسید برای رسوب دادن Mg(OH)<sub>2</sub>",
+                    "الکترولیز برای جدا کردن کلر",
+                    "اضافه کردن هیدروکلریک اسید به Mg(OH)<sub>2</sub>",
+                    "انتقال جریان برق به محلول"
+                ],
+                answer: "اضافه کردن هیدروکلریک اسید به Mg(OH)<sub>2</sub>"
+            }
         ];
 
-        let availableQuestions = [...qaPairs]; // Copy of all questions
-        let askedQuestionsCount = 0;
+        let availableQuestions = [...quizData]; // Copy of all questions
         let currentQuestion = null;
+        let selectedOption = null;
+        let totalQuestionsAnswered = 0;
 
         const questionDisplay = document.getElementById('questionDisplay');
-        const answerInput = document.getElementById('answerInput');
+        const optionsContainer = document.getElementById('optionsContainer');
         const feedbackDisplay = document.getElementById('feedbackDisplay');
-        const correctAnswerDisplay = document.getElementById('correctAnswerDisplay');
         const checkAnswerBtn = document.getElementById('checkAnswer');
         const nextQuestionBtn = document.getElementById('nextQuestion');
         const progressBar = document.getElementById('progressBar');
 
-        // Function to normalize strings for comparison (remove extra spaces, convert to lowercase)
-        function normalizeString(str) {
-            // Replace various spaces/newlines with a single space, trim, and convert to lowercase
-            return str.replace(/\s+/g, ' ').trim().toLowerCase();
+        function normalizeText(text) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = text;
+            return tempDiv.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
         }
 
         function displayNextQuestion() {
             if (availableQuestions.length === 0) {
-                questionDisplay.innerHTML = 'تمام سوالات پاسخ داده شدند! 🥳';
-                answerInput.style.display = 'none';
+                questionDisplay.innerHTML = 'تبریک! 🎉 تمام سوالات را پاسخ دادید!';
+                optionsContainer.innerHTML = '';
+                feedbackDisplay.innerHTML = '';
                 checkAnswerBtn.style.display = 'none';
                 nextQuestionBtn.textContent = 'شروع مجدد آزمون';
-                feedbackDisplay.innerHTML = '';
-                correctAnswerDisplay.style.display = 'none';
                 return;
             }
 
             const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-            currentQuestion = availableQuestions.splice(randomIndex, 1)[0]; // Remove question from available
-            
+            currentQuestion = availableQuestions[randomIndex];
+
             questionDisplay.innerHTML = currentQuestion.question;
-            answerInput.value = ''; // Clear previous input
-            answerInput.style.display = 'block';
+            optionsContainer.innerHTML = ''; // Clear previous options
+            selectedOption = null;
             feedbackDisplay.innerHTML = ''; // Clear feedback
-            correctAnswerDisplay.style.display = 'none'; // Hide correct answer
-            checkAnswerBtn.disabled = false; // Enable check button
-            nextQuestionBtn.disabled = true; // Disable next button until checked
-            answerInput.focus(); // Focus on the input field
+            checkAnswerBtn.disabled = true; // Disable check until an option is selected
+            nextQuestionBtn.disabled = false; // Enable next button initially
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.classList.add('option-button');
+                button.innerHTML = option;
+                button.dataset.index = index; // Store original index for selection
+                button.addEventListener('click', () => selectOption(button, option));
+                optionsContainer.appendChild(button);
+            });
 
             updateProgressBar();
         }
 
+        function selectOption(button, optionText) {
+            // Remove 'selected' class from all buttons
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.classList.remove('correct'); // Clear previous feedback colors
+                btn.classList.remove('incorrect'); // Clear previous feedback colors
+            });
+            
+            button.classList.add('selected'); // Add 'selected' class to the clicked button
+            selectedOption = optionText;
+            checkAnswerBtn.disabled = false; // Enable check button once an option is selected
+            feedbackDisplay.innerHTML = ''; // Clear any previous feedback
+        }
+
         function checkAnswer() {
-            const userAnswer = normalizeString(answerInput.value);
-            // We need to normalize the stored answer only when comparing it.
-            // Some answers contain HTML tags like <sub> or equations, so we can't just call .textContent
-            // We'll create a temporary div to get the plain text if it's not a simple string.
-            let correctAnswerNormalized;
-            if (currentQuestion.answer.includes('<')) { // Check if it likely contains HTML
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = currentQuestion.answer;
-                correctAnswerNormalized = normalizeString(tempDiv.textContent);
-            } else {
-                correctAnswerNormalized = normalizeString(currentQuestion.answer);
+            if (selectedOption === null) {
+                feedbackDisplay.innerHTML = 'لطفاً یک گزینه را انتخاب کنید.';
+                feedbackDisplay.className = 'feedback incorrect';
+                return;
             }
 
-            if (userAnswer === correctAnswerNormalized) {
+            // Disable all option buttons after checking
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.disabled = true;
+            });
+
+            const selectedButton = Array.from(document.querySelectorAll('.option-button')).find(
+                button => normalizeText(button.innerHTML) === normalizeText(selectedOption)
+            );
+
+            if (normalizeText(selectedOption) === normalizeText(currentQuestion.answer)) {
                 feedbackDisplay.innerHTML = 'درست بود! ✅';
                 feedbackDisplay.className = 'feedback correct';
-                correctAnswerDisplay.style.display = 'none';
-                askedQuestionsCount++; // Increment count only on correct answer
-                // Automatically move to next question if correct, or enable button
-                nextQuestionBtn.disabled = false; 
-                checkAnswerBtn.disabled = true; // Disable check after correct answer
-                answerInput.disabled = true; // Disable input after correct answer
+                selectedButton.classList.add('correct');
+                // Remove the question from available questions only if answered correctly
+                availableQuestions = availableQuestions.filter(q => q !== currentQuestion);
             } else {
                 feedbackDisplay.innerHTML = 'اشتباه بود. ❌';
                 feedbackDisplay.className = 'feedback incorrect';
-                correctAnswerDisplay.innerHTML = 'پاسخ صحیح: ' + currentQuestion.answer;
-                correctAnswerDisplay.style.display = 'block';
-                checkAnswerBtn.disabled = true; // Disable check after incorrect answer
-                nextQuestionBtn.disabled = false; // Enable next to allow skipping
-                answerInput.disabled = true; // Disable input after incorrect answer
+                selectedButton.classList.add('incorrect');
+                // Show the correct answer
+                Array.from(document.querySelectorAll('.option-button')).forEach(btn => {
+                    if (normalizeText(btn.innerHTML) === normalizeText(currentQuestion.answer)) {
+                        btn.classList.add('correct');
+                    }
+                });
             }
+            checkAnswerBtn.disabled = true; // Disable check button after checking
+            nextQuestionBtn.disabled = false; // Enable next button
+            totalQuestionsAnswered++; // Increment count regardless of correctness for progress bar
             updateProgressBar();
         }
 
         function updateProgressBar() {
-            const totalQuestions = qaPairs.length;
+            const totalQuestions = quizData.length;
             const progress = ((totalQuestions - availableQuestions.length) / totalQuestions) * 100;
             progressBar.style.width = progress + '%';
             progressBar.textContent = Math.round(progress) + '%';
@@ -293,24 +474,16 @@
         nextQuestionBtn.addEventListener('click', () => {
             if (availableQuestions.length === 0 && nextQuestionBtn.textContent === 'شروع مجدد آزمون') {
                 // Reset quiz
-                availableQuestions = [...qaPairs];
-                askedQuestionsCount = 0;
-                answerInput.style.display = 'block';
+                availableQuestions = [...quizData];
+                totalQuestionsAnswered = 0;
                 checkAnswerBtn.style.display = 'inline-block';
                 nextQuestionBtn.textContent = 'سوال بعدی';
-                answerInput.disabled = false;
-                displayNextQuestion();
-            } else {
-                answerInput.disabled = false; // Enable input for new question
-                displayNextQuestion();
             }
-        });
-
-        // Allow pressing Enter to check answer
-        answerInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter' && !checkAnswerBtn.disabled) {
-                checkAnswer();
-            }
+            // Re-enable option buttons before displaying next question
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.disabled = false;
+            });
+            displayNextQuestion();
         });
 
         // Initial load
