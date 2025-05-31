@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تمرین حفظ کردن شیمی و فیزیک - 日本語の勉強も忘れずに!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            margin: 20px;
+            direction: rtl;
+            text-align: right;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .flashcard-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #e9f7ff;
+            border-radius: 5px;
+        }
+        .flashcard-item {
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 10px;
+        }
+        .question {
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+        .question:hover {
+            background-color: #d1ecf1;
+        }
+        .answer {
+            display: none; /* Hidden by default */
+            margin-top: 5px;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 3px;
+        }
+        .flashcard-item.active .answer {
+            display: block; /* Show when active */
+        }
+        .equation {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-left: 5px solid #0056b3;
+            margin-top: 10px;
+            overflow-x: auto; /* For long equations */
+        }
+        sup, sub {
+            vertical-align: super;
+            font-size: smaller;
+        }
+        sub {
+            vertical-align: sub;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>فلش‌کارت‌های شیمی و فیزیک - 勉強がんばってね (Benkyou Ganbatte ne!)</h1>
+        <p style="text-align: center; font-style: italic;">برای دیدن جواب، روی سوال کلیک کنید.</p>
+
+        <div class="flashcard-section">
+            <h2>نامگذاری ترکیبات و مفاهیم</h2>
+            <div class="flashcard-item">
+                <div class="question">Al<sub>2</sub>O<sub>3</sub></div>
+                <div class="answer">بوکسیت نام دارد.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">Fe<sub>2</sub>O<sub>3</sub></div>
+                <div class="answer">هماتیت نام دارد.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">تولیدات احتراق ذغال سنگ چیست؟</div>
+                <div class="answer">CO, CO<sub>2</sub>, H<sub>2</sub>O, SO<sub>2</sub></div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">اکسید فلز چه خاصیتی دارد؟</div>
+                <div class="answer">بازی است.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">اکسید نافلز چه خاصیتی دارد؟</div>
+                <div class="answer">اسیدی است.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">سرکه چند درصد استیک اسید دارد؟</div>
+                <div class="answer">پنج درصد.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">کدام عنصر در شربت معده وجود دارد؟</div>
+                <div class="answer">منیزیم.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">لیتیوم سولفات در آب چه خاصیتی دارد؟</div>
+                <div class="answer">گرماده است.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">کدام ترکیبات در آب کم محلول هستند؟</div>
+                <div class="answer">نقره کلرید (AgCl), باریم سولفات (BaSO<sub>4</sub>), کلسیم سولفات (CaSO<sub>4</sub>) و منیزیم هیدروکسید (Mg(OH)<sub>2</sub>).</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">فراوان‌ترین یون در آب چیست؟</div>
+                <div class="answer">Cl<sup>-</sup> است.</div>
+            </div>
+        </div>
+
+        <div class="flashcard-section">
+            <h2>معادلات شیمیایی</h2>
+            <div class="flashcard-item">
+                <div class="question">معادله واکنش NaCl با AgNO<sub>3</sub> (با H<sub>2</sub>O به عنوان کاتالیزور)</div>
+                <div class="answer">
+                    <div class="equation">NaCl<sub>(s)</sub> + AgNO<sub>3(s)</sub> &rarr; AgCl<sub>(s)</sub> + NaNO<sub>3(aq)</sub></div>
+                    (آب به عنوان کاتالیزور استفاده می‌شود.)
+                </div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">معادله واکنش 2Na<sub>3</sub>PO<sub>4</sub> با 3CaCl<sub>2</sub> (با H<sub>2</sub>O به عنوان کاتالیزور)</div>
+                <div class="answer">
+                    <div class="equation">2Na<sub>3</sub>PO<sub>4(s)</sub> + 3CaCl<sub>2(s)</sub> &rarr; Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2(s)</sub> + 6NaCl<sub>(aq)</sub></div>
+                    (آب به عنوان کاتالیزور استفاده می‌شود.)
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-section">
+            <h2>امواج و ذرات</h2>
+            <div class="flashcard-item">
+                <div class="question">ترتیب امواج از قوی به ضعیف چیست؟</div>
+                <div class="answer">گاما، ایکس، فرابنفش، مرئی، فروسرخ، ریزموج‌ها، رادیویی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">وزن پروتون چقدر است؟</div>
+                <div class="answer">برابر ۱.۰۰۷۳ است.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">وزن نوترون چقدر است؟</div>
+                <div class="answer">برابر ۱.۰۰۸۷ است.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">حرکت الکترون از لایه ۶ به دو چه رنگی می‌سازد؟</div>
+                <div class="answer">بنفش.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">حرکت الکترون از لایه ۵ به دو چه رنگی می‌سازد؟</div>
+                <div class="answer">آبی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">حرکت الکترون از لایه ۴ به دو چه رنگی می‌سازد؟</div>
+                <div class="answer">سبز.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">حرکت الکترون از لایه ۳ به دو چه رنگی می‌سازد؟</div>
+                <div class="answer">قرمز.</div>
+            </div>
+        </div>
+
+        <div class="flashcard-section">
+            <h2>اورانیوم و عناصر</h2>
+            <div class="flashcard-item">
+                <div class="question">کدام ایزوتوپ اورانیوم در راکتورها استفاده می‌شود؟</div>
+                <div class="answer">اورانیوم ۲۳۵.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">درصد فراوانی اورانیوم ۲۳۵ در جرم طبیعی چقدر است؟</div>
+                <div class="answer">کمتر از ۰.۷ درصد.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">چند عنصر ساختگی و چند عنصر طبیعی داریم؟</div>
+                <div class="answer">۲۶ عنصر ساختگی و ۹۲ طبیعی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">نام حلال رنگ چیست؟</div>
+                <div class="answer">هگزان.</div>
+            </div>
+        </div>
+
+        <div class="flashcard-section">
+            <h2>پیوندها و یون‌ها</h2>
+            <div class="flashcard-item">
+                <div class="question">هیدروژن با اتصال به چه عناصری پیوند هیدروژنی می‌سازد؟</div>
+                <div class="answer">F, N, O (فلوئور، نیتروژن، اکسیژن).</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">یون هیدروکسید (HO) چند بار منفی دارد؟</div>
+                <div class="answer">یک بار منفی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">یون آمونیوم (NH<sub>4</sub>) چند بار مثبت دارد؟</div>
+                <div class="answer">یک بار مثبت.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">یون منگنات (MnO<sub>4</sub>) چند بار منفی دارد؟</div>
+                <div class="answer">دو بار منفی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">یون پرمنگنات (MnO<sub>4</sub>) چند بار منفی دارد؟</div>
+                <div class="answer">یک بار منفی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">یون کربنات (CO<sub>3</sub>) چند بار منفی دارد؟</div>
+                <div class="answer">دو بار منفی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">یون سولفات (SO<sub>4</sub>) چند بار منفی دارد؟</div>
+                <div class="answer">دو بار منفی.</div>
+            </div>
+            <div class="flashcard-item">
+                <div class="question">یون نیترات (NO<sub>3</sub>) چند بار منفی دارد؟</div>
+                <div class="answer">یک بار منفی.</div>
+            </div>
+        </div>
+
+        <div class="flashcard-section">
+            <h2>فرآیند تهیه منیزیم</h2>
+            <div class="flashcard-item">
+                <div class="question">مراحل تهیه منیزیم از آب را شرح دهید.</div>
+                <div class="answer">
+                    برای تهیه منیزیم از آب، ابتدا به آن هیدروکسید (HO<sup>-</sup>) اضافه می‌کنیم تا به صورت **Mg(OH)<sub>2</sub>** دربیاید که نامحلول است. سپس به آن **هیدروکلریک اسید** می‌زنیم تا نمکی محلول در آب به دست آید. در نهایت، با عبور جریان برق (الکترولیز)، آن را از کلر جدا می‌کنیم.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.question').forEach(item => {
+            item.addEventListener('click', event => {
+                const parent = event.target.closest('.flashcard-item');
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
